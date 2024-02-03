@@ -1,9 +1,11 @@
 <script setup>
+import {useStore} from "@/store/store.js";
 
+const store = useStore()
 </script>
 
 <template>
-  <div class="wrapper-sidebar">
+  <div class="wrapper-sidebar" :class="{'wrapper-sidebar-dark': store.theme === 'dark'}">
     <div @click="$emit('changeSidebar')" class="wrapper-sidebar__change-sidebar">
       <svg width="65" height="65" class="wrapper-sidebar__change-sidebar__icon">
         <use xlink:href="@/assets/images/icons.svg#change-sidebar-icon"></use>
@@ -61,6 +63,10 @@
   width: 100px;
   background-color: #A15208;
 
+  &-dark {
+    background-color: #510606;
+  }
+
   &__change-sidebar {
     cursor: pointer;
     svg {
@@ -91,5 +97,11 @@
 
 .active-button {
   opacity: 1 !important;
+}
+
+@media (max-width: 1300px) {
+  .wrapper-sidebar__change-sidebar {
+    display: none;
+  }
 }
 </style>

@@ -2,6 +2,7 @@
 import Genres from "@/components/Genres.vue";
 import {computed, reactive, ref} from "vue";
 import Book from "@/components/Book.vue";
+import {useStore} from "@/store/store.js";
 
 const all_books = reactive([
   {
@@ -131,45 +132,56 @@ const all_books = reactive([
     images: 'blagoslavlenie.png'
   },
 ])
+const store = useStore()
 
-const getBooksByGenre = (active_genres) => {
-  console.log(active_genres)
+const params = {
+  genres: [],
+  filter: 'new'
 }
-
+const setGenres = (active_genres) => {
+  params.genres = active_genres
+  requestForBooks()
+}
+const setFilter = (filter) => {
+  for (let key in filter_status) {
+    filter_status[key] = false
+  }
+  filter_status[filter] = true
+  show_filters.value = !show_filters.value
+  params.filter = filter
+  requestForBooks()
+}
+const requestForBooks = () => {
+  console.log(params)
+}
 const show_filters = ref(false)
 const filter_status = reactive({
   new: true,
   rating: false,
   popular: false
 })
-const changeFilterStatus = (filter) => {
-  for (let key in filter_status) {
-    filter_status[key] = false
-  }
-  filter_status[filter] = true
-  show_filters.value = !show_filters.value
-}
+
 </script>
 
 <template>
   <div class="all-books-wrapper">
-    <Genres @active_genres="getBooksByGenre"/>
+    <Genres @active_genres="setGenres"/>
     <div class="all-books-wrapper__filters">
-      <div class="all-books-wrapper__filters__text">
+      <div class="all-books-wrapper__filters__text" :class="store.theme === 'dark' ? 'all-books-wrapper__filters__text-dark' : null">
         Все книги:
       </div>
-      <div @click="show_filters = !show_filters" class="all-books-wrapper__filters__button">
+      <div @click="show_filters = !show_filters" class="all-books-wrapper__filters__button" :class="store.theme === 'dark' ? 'all-books-wrapper__filters__button-dark' : null">
         <svg width="24" height="26">
           <use xlink:href="@/assets/images/icons.svg#filters-icon"></use>
         </svg>
-        <div v-if="filter_status.new">по новизне</div>
-        <div v-else-if="filter_status.rating">по рейтингу</div>
-        <div v-else-if="filter_status.popular">по популярности</div>
+        <div v-if="filter_status.new" class="all-books-wrapper__filters__button__text" :class="store.theme === 'dark' ? 'all-books-wrapper__filters__button__text-dark' : null">по новизне</div>
+        <div v-else-if="filter_status.rating" class="all-books-wrapper__filters__button__text" :class="store.theme === 'dark' ? 'all-books-wrapper__filters__button__text-dark' : null">по рейтингу</div>
+        <div v-else-if="filter_status.popular" class="all-books-wrapper__filters__button__text" :class="store.theme === 'dark' ? 'all-books-wrapper__filters__button__text-dark' : null">по популярности</div>
         <Transition name="filters-animation">
           <div @click.stop v-show="show_filters" class="all-books-wrapper__filters__button-active">
-            <div @click="changeFilterStatus('new')" class="all-books-wrapper__filters__button-active__text">новые</div>
-            <div @click="changeFilterStatus('popular')" class="all-books-wrapper__filters__button-active__text">популярные</div>
-            <div @click="changeFilterStatus('rating')" class="all-books-wrapper__filters__button-active__text">рейтинг</div>
+            <div @click="setFilter('new')" class="all-books-wrapper__filters__button-active__text">новые</div>
+            <div @click="setFilter('popular')" class="all-books-wrapper__filters__button-active__text">популярные</div>
+            <div @click="setFilter('rating')" class="all-books-wrapper__filters__button-active__text">рейтинг</div>
           </div>
         </Transition>
       </div>
@@ -186,8 +198,7 @@ const changeFilterStatus = (filter) => {
 
 <style scoped lang="scss">
 .all-books-wrapper {
-  margin-top: 35px;
-  margin-left: 45px;
+  margin: 35px 10px 35px 45px;
 
   &__filters {
     display: inline-flex;
@@ -198,6 +209,12 @@ const changeFilterStatus = (filter) => {
     &__text {
       color: #a15208;
       font-size: 30px;
+      white-space: nowrap;
+      user-select: none;
+
+      &-dark {
+        color: white;
+      }
     }
 
     &__button {
@@ -213,6 +230,24 @@ const changeFilterStatus = (filter) => {
       padding: 5px 15px;
       cursor: pointer;
       user-select: none;
+      white-space: nowrap;
+
+      svg {
+        stroke: #939393;
+      }
+
+      &-dark {
+        background-color: #4B0404;
+        svg {
+          fill: white;
+          stroke: white;
+        }
+      }
+
+      &__text-dark {
+        color: white;
+      }
+
     }
 
     &__button-active {
@@ -231,6 +266,11 @@ const changeFilterStatus = (filter) => {
 
       &__text {
         width: 100%;
+        border-bottom: 1px solid #939393;
+
+        &:last-child {
+          border-bottom: none;
+        }
 
         &:hover {
           color: #a15208;
@@ -249,15 +289,66 @@ const changeFilterStatus = (filter) => {
 }
 
 .filters-animation {
-  &-enter-active,
-  &-leave-active {
-    transition-duration: 0.2s;
-  }
-
-  &-enter-from,
-  &-leave-to {
+  &-enter-from {
     opacity: 0;
     transform: scale(0.1);
+  }
+
+  &-enter-to {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  &-enter-active {
+    transition-duration: 0.2s;
+  }
+}
+
+@media (max-width: 800px) {
+  .all-books-wrapper {
+    margin: 20px 10px 0 10px;
+  }
+
+  .all-books-wrapper__books {
+    margin-top: 30px;
+    column-gap: 15px;
+    row-gap: 15px;
+  }
+
+  .all-books-wrapper__filters__text {
+    font-size: 25px;
+  }
+
+  .all-books-wrapper__filters__button {
+    svg {
+      width: 20px;
+      height: 22px;
+    }
+
+    &__text {
+      font-size: 20px;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .all-books-wrapper__filters {
+    column-gap: 20px;
+  }
+  .all-books-wrapper__filters__text {
+    font-size: 22px;
+  }
+  .all-books-wrapper__filters__button {
+    &__text {
+      font-size: 16px;
+    }
+  }
+}
+
+@media (max-width: 350px) {
+  .all-books-wrapper__filters {
+    flex-direction: column;
+    row-gap: 20px;
   }
 }
 </style>

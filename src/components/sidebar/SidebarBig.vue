@@ -1,15 +1,18 @@
 <script setup>
+import {useStore} from "@/store/store.js";
+
+const store = useStore()
 </script>
 
 <template>
-  <div class="sidebar-wrapper">
-    <div class="sidebar-wrapper__title">
+  <div class="sidebar-wrapper" :class="{'sidebar-wrapper-dark': store.theme === 'dark'}">
+    <div class="sidebar-wrapper__title" :class="{'sidebar-wrapper__title-dark': store.theme === 'dark'}">
       <svg width="364" height="56" class="sidebar-wrapper__title__icon">
         <use xlink:href="@/assets/images/icons.svg#border-title"></use>
       </svg>
       <span class="sidebar-wrapper__title__text">Онлайн Библиотека</span>
     </div>
-    <div class="sidebar-wrapper__navigation">
+    <div class="sidebar-wrapper__navigation" :class="{'sidebar-wrapper__navigation-dark': store.theme === 'dark'}">
       <router-link to="/" style="text-decoration: none">
         <div class="sidebar-wrapper__navigation__home" :class="$route.path === '/' ? 'active-button' : null">
           <svg width="65" height="65" class="sidebar-wrapper__navigation__home__icon">
@@ -71,12 +74,23 @@
   background-size: cover;
   border-radius: 0 20px 20px 0;
 
+  &-dark {
+    background-color: #1408a3;
+  }
+
   &__title {
     display: inline-block;
     color: white;
     font-size: 30px;
     margin-top: 25px;
     cursor: pointer;
+    fill: #A15208;
+    stroke: white;
+
+    &-dark {
+      fill: #595FDF;
+      stroke: #FF00C7;
+    }
 
     &__text {
       font-weight: 300;
@@ -122,6 +136,18 @@
         color: #A15208;
         font-size: 20px;
         font-weight: 400;
+      }
+    }
+    &-dark {
+      div {
+        background-color: #595FDF;
+        svg {
+          fill: white;
+          stroke: white;
+        }
+        span {
+          color: white;
+        }
       }
     }
   }
