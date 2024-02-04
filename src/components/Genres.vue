@@ -51,8 +51,8 @@ function clickOnGenre(event, genre) {
     user-select: none;
 
     &-dark {
-      background-color: #4B0404;
-      color: white;
+      background-color: #BBBBBB;
+      color: #4B0404;
     }
   }
 }
@@ -62,12 +62,15 @@ function clickOnGenre(event, genre) {
   color: white;
 }
 .active-genre-dark {
-  background-color: #BBBBBB;
-  color: #4B0404;
+  background-color: #4B0404;
+  color: white;
 }
 
 
 @media (max-width: 1000px) {
+  .wrapper-genres {
+    gap: 15px 15px;
+  }
   .wrapper-genres__genre {
     padding: 10px 17px;
     font-size: 18px;

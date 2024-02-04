@@ -131,6 +131,132 @@ const all_books = reactive([
     author: 'Харальд Хорф',
     images: 'blagoslavlenie.png'
   },
+  {
+    id: 21,
+    name: 'Atomic Heart. Предыстория',
+    author: 'Харальд Хорф',
+    images: 'atomic.png'
+  },
+  {
+    id: 22,
+    name: 'Голодные игры. Книга 1. Голодные игры',
+    author: 'Сьюзен Коллинз',
+    images: 'golodnie-igri.png'
+  },
+  {
+    id: 23,
+    name: 'Последнее желание. Меч Предназначения. Кровь эльфов',
+    author: 'Анджей Сапковский',
+    images: 'witcher.png'
+  },
+  {
+    id: 24,
+    name: 'Метро 2033',
+    author: 'Дмитрий Глуховский',
+    images: 'metro.png'
+  },
+  {
+    id: 25,
+    name: 'Взломать смерть',
+    author: 'Герман Рыльский, Тамара Рыльская ',
+    images: 'vzlomat.png'
+  },
+  {
+    id: 26,
+    name: 'Дюна. Хроники Дюны. Книга 1',
+    author: 'Фрэнк Герберт',
+    images: 'duna.png'
+  },
+  {
+    id: 27,
+    name: 'Благословение небожителей. Том 2',
+    author: 'Харальд Хорф',
+    images: 'blagoslavlenie.png'
+  },
+  {
+    id: 28,
+    name: 'Atomic Heart. Предыстория',
+    author: 'Харальд Хорф',
+    images: 'atomic.png'
+  },
+  {
+    id: 29,
+    name: 'Голодные игры. Книга 1. Голодные игры',
+    author: 'Сьюзен Коллинз',
+    images: 'golodnie-igri.png'
+  },
+  {
+    id: 30,
+    name: 'Последнее желание. Меч Предназначения. Кровь эльфов',
+    author: 'Анджей Сапковский',
+    images: 'witcher.png'
+  },
+  {
+    id: 31,
+    name: 'Метро 2033',
+    author: 'Дмитрий Глуховский',
+    images: 'metro.png'
+  },
+  {
+    id: 32,
+    name: 'Взломать смерть',
+    author: 'Герман Рыльский, Тамара Рыльская ',
+    images: 'vzlomat.png'
+  },
+  {
+    id: 33,
+    name: 'Дюна. Хроники Дюны. Книга 1',
+    author: 'Фрэнк Герберт',
+    images: 'duna.png'
+  },
+  {
+    id: 34,
+    name: 'Благословение небожителей. Том 2',
+    author: 'Харальд Хорф',
+    images: 'blagoslavlenie.png'
+  },
+  {
+    id: 35,
+    name: 'Atomic Heart. Предыстория',
+    author: 'Харальд Хорф',
+    images: 'atomic.png'
+  },
+  {
+    id: 36,
+    name: 'Голодные игры. Книга 1. Голодные игры',
+    author: 'Сьюзен Коллинз',
+    images: 'golodnie-igri.png'
+  },
+  {
+    id: 37,
+    name: 'Последнее желание. Меч Предназначения. Кровь эльфов',
+    author: 'Анджей Сапковский',
+    images: 'witcher.png'
+  },
+  {
+    id: 38,
+    name: 'Метро 2033',
+    author: 'Дмитрий Глуховский',
+    images: 'metro.png'
+  },
+  {
+    id: 39,
+    name: 'Взломать смерть',
+    author: 'Герман Рыльский, Тамара Рыльская ',
+    images: 'vzlomat.png'
+  },
+  {
+    id: 40,
+    name: 'Дюна. Хроники Дюны. Книга 1',
+    author: 'Фрэнк Герберт',
+    images: 'duna.png'
+  },
+  {
+    id: 41,
+    name: 'Благословение небожителей. Том 2',
+    author: 'Харальд Хорф',
+    images: 'blagoslavlenie.png'
+  },
 ])
 const store = useStore()
 
@@ -167,16 +293,24 @@ const filter_status = reactive({
   <div class="all-books-wrapper">
     <Genres @active_genres="setGenres"/>
     <div class="all-books-wrapper__filters">
-      <div class="all-books-wrapper__filters__text" :class="store.theme === 'dark' ? 'all-books-wrapper__filters__text-dark' : null">
+      <div class="all-books-wrapper__filters__text"
+           :class="store.theme === 'dark' ? 'all-books-wrapper__filters__text-dark' : null">
         Все книги:
       </div>
-      <div @click="show_filters = !show_filters" class="all-books-wrapper__filters__button" :class="store.theme === 'dark' ? 'all-books-wrapper__filters__button-dark' : null">
+      <div @click="show_filters = !show_filters" class="all-books-wrapper__filters__button"
+           :class="store.theme === 'dark' ? 'all-books-wrapper__filters__button-dark' : null">
         <svg width="24" height="26">
           <use xlink:href="@/assets/images/icons.svg#filters-icon"></use>
         </svg>
-        <div v-if="filter_status.new" class="all-books-wrapper__filters__button__text" :class="store.theme === 'dark' ? 'all-books-wrapper__filters__button__text-dark' : null">по новизне</div>
-        <div v-else-if="filter_status.rating" class="all-books-wrapper__filters__button__text" :class="store.theme === 'dark' ? 'all-books-wrapper__filters__button__text-dark' : null">по рейтингу</div>
-        <div v-else-if="filter_status.popular" class="all-books-wrapper__filters__button__text" :class="store.theme === 'dark' ? 'all-books-wrapper__filters__button__text-dark' : null">по популярности</div>
+        <div v-if="filter_status.new" class="all-books-wrapper__filters__button__text"
+             :class="store.theme === 'dark' ? 'all-books-wrapper__filters__button__text-dark' : null">по новизне
+        </div>
+        <div v-else-if="filter_status.rating" class="all-books-wrapper__filters__button__text"
+             :class="store.theme === 'dark' ? 'all-books-wrapper__filters__button__text-dark' : null">по рейтингу
+        </div>
+        <div v-else-if="filter_status.popular" class="all-books-wrapper__filters__button__text"
+             :class="store.theme === 'dark' ? 'all-books-wrapper__filters__button__text-dark' : null">по популярности
+        </div>
         <Transition name="filters-animation">
           <div @click.stop v-show="show_filters" class="all-books-wrapper__filters__button-active">
             <div @click="setFilter('new')" class="all-books-wrapper__filters__button-active__text">новые</div>
@@ -238,6 +372,7 @@ const filter_status = reactive({
 
       &-dark {
         background-color: #4B0404;
+
         svg {
           fill: white;
           stroke: white;

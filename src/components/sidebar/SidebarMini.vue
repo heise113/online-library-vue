@@ -64,7 +64,7 @@ const store = useStore()
   background-color: #A15208;
 
   &-dark {
-    background-color: #510606;
+    background-color: #5b027b;
   }
 
   &__change-sidebar {

@@ -140,7 +140,7 @@ const store = useStore()
     }
     &-dark {
       div {
-        background-color: #595FDF;
+        background-color: rgba(#595FDF, 0.7);
         svg {
           fill: white;
           stroke: white;
