@@ -18,8 +18,8 @@ window.addEventListener("resize", onResize);
 <template>
 
   <Transition name="change-sidebar" mode="out-in">
-    <SidebarBig v-if="store.sidebar_status" @changeSidebar="store.sidebar_status = !store.sidebar_status"/>
-    <SidebarMini v-else @changeSidebar="store.sidebar_status = !store.sidebar_status"/>
+    <SidebarBig class="sidebar-big" v-if="store.sidebar_status" @changeSidebar="store.sidebar_status = !store.sidebar_status"/>
+    <SidebarMini class="sidebar-mini" v-else @changeSidebar="store.sidebar_status = !store.sidebar_status"/>
   </Transition>
 
 </template>

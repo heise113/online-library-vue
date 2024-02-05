@@ -14,7 +14,13 @@ const store = useStore()
     </div>
     <div class="sidebar-wrapper__navigation" :class="{'sidebar-wrapper__navigation-dark': store.theme === 'dark'}">
       <router-link to="/" style="text-decoration: none">
-        <div class="sidebar-wrapper__navigation__home" :class="$route.path === '/' ? 'active-button' : null">
+        <div
+            class="sidebar-wrapper__navigation__home"
+            :class="{
+              'active-button': $route.path === '/' && store.theme === 'light',
+              'active-button-dark': $route.path === '/' && store.theme === 'dark'
+            }"
+        >
           <svg width="65" height="65" class="sidebar-wrapper__navigation__home__icon">
             <use xlink:href="@/assets/images/icons.svg#home-icon"></use>
           </svg>
@@ -22,7 +28,13 @@ const store = useStore()
         </div>
       </router-link>
       <router-link to="/my-book" style="text-decoration: none">
-        <div class="sidebar-wrapper__navigation__my-book" :class="$route.path === '/my-book' ? 'active-button' : null">
+        <div
+            class="sidebar-wrapper__navigation__my-book"
+            :class="{
+              'active-button': $route.path === '/my-book' && store.theme === 'light',
+              'active-button-dark': $route.path === '/my-book' && store.theme === 'dark'
+            }"
+        >
           <svg width="60" height="60" class="sidebar-wrapper__navigation__my-book__icon">
             <use xlink:href="@/assets/images/icons.svg#my-book-icon"></use>
           </svg>
@@ -138,13 +150,16 @@ const store = useStore()
         font-weight: 400;
       }
     }
+
     &-dark {
       div {
         background-color: rgba(#595FDF, 0.7);
+
         svg {
           fill: white;
           stroke: white;
         }
+
         span {
           color: white;
         }
@@ -168,12 +183,27 @@ const store = useStore()
 
 .active-button {
   background-color: rgba(#510606, 0.7) !important;
+
   svg {
     stroke: white !important;
     fill: white !important;
   }
+
   span {
     color: white !important;
+  }
+}
+
+.active-button-dark {
+  background-color: rgba(white, 0.7) !important;
+
+  svg {
+    stroke: #5b027b !important;
+    fill: #5b027b !important;
+  }
+
+  span {
+    color: #5b027b !important;
   }
 }
 </style>

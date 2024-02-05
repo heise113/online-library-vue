@@ -23,5 +23,9 @@ window.addEventListener("resize", onResize);
 <style scoped lang="scss">
 .wrapper-home {
   display: flex;
+
+  &__content {
+    flex: auto;
+  }
 }
 </style>

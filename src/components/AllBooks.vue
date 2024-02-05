@@ -303,13 +303,19 @@ const filter_status = reactive({
           <use xlink:href="@/assets/images/icons.svg#filters-icon"></use>
         </svg>
         <div v-if="filter_status.new" class="all-books-wrapper__filters__button__text"
-             :class="store.theme === 'dark' ? 'all-books-wrapper__filters__button__text-dark' : null">по новизне
+             :class="store.theme === 'dark' ? 'all-books-wrapper__filters__button__text-dark' : null"
+        >
+          новые
         </div>
         <div v-else-if="filter_status.rating" class="all-books-wrapper__filters__button__text"
-             :class="store.theme === 'dark' ? 'all-books-wrapper__filters__button__text-dark' : null">по рейтингу
+             :class="store.theme === 'dark' ? 'all-books-wrapper__filters__button__text-dark' : null"
+        >
+          рейтинг
         </div>
         <div v-else-if="filter_status.popular" class="all-books-wrapper__filters__button__text"
-             :class="store.theme === 'dark' ? 'all-books-wrapper__filters__button__text-dark' : null">по популярности
+             :class="store.theme === 'dark' ? 'all-books-wrapper__filters__button__text-dark' : null"
+        >
+          популярные
         </div>
         <Transition name="filters-animation">
           <div @click.stop v-show="show_filters" class="all-books-wrapper__filters__button-active">
@@ -332,7 +338,7 @@ const filter_status = reactive({
 
 <style scoped lang="scss">
 .all-books-wrapper {
-  margin: 35px 10px 35px 45px;
+  margin: 35px 45px 35px 45px;
 
   &__filters {
     display: inline-flex;
@@ -368,6 +374,11 @@ const filter_status = reactive({
 
       svg {
         stroke: #939393;
+      }
+
+      &__text {
+        position: relative;
+        bottom: 1px;
       }
 
       &-dark {
@@ -415,8 +426,9 @@ const filter_status = reactive({
   }
 
   &__books {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 158px);
+    justify-content: space-evenly;
     column-gap: 30px;
     row-gap: 30px;
     margin-top: 60px;
@@ -445,9 +457,14 @@ const filter_status = reactive({
   }
 
   .all-books-wrapper__books {
-    margin-top: 30px;
+    margin-top: 20px;
+    grid-template-columns: repeat(auto-fit, 100px);
     column-gap: 15px;
     row-gap: 15px;
+  }
+
+  .all-books-wrapper__filters {
+    margin-top: 25px;
   }
 
   .all-books-wrapper__filters__text {
@@ -455,13 +472,13 @@ const filter_status = reactive({
   }
 
   .all-books-wrapper__filters__button {
+    gap: 0 10px;
     svg {
-      width: 20px;
+      width: 18px;
       height: 22px;
     }
-
     &__text {
-      font-size: 20px;
+      font-size: 21px;
     }
   }
 }
@@ -469,6 +486,11 @@ const filter_status = reactive({
 @media (max-width: 500px) {
   .all-books-wrapper__filters {
     column-gap: 20px;
+
+    svg {
+      width: 15px;
+      height: 19px;
+    }
   }
   .all-books-wrapper__filters__text {
     font-size: 22px;
@@ -477,6 +499,12 @@ const filter_status = reactive({
     &__text {
       font-size: 16px;
     }
+  }
+
+  .all-books-wrapper__filters__button-active {
+    top: 40px;
+    font-size: 18px;
+    padding: 5px 10px;
   }
 }
 

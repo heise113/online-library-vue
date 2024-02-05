@@ -13,7 +13,7 @@ const down_header = ref(false)
 
 <template>
   <div class="header-desktop" :class="store.theme === 'dark' ? 'header-desktop-dark' : null">
-    <div class="header-desktop__search">
+    <div class="header-desktop__search" :class="{'header-desktop__search-dark': store.theme === 'dark'}">
       <input class="header-desktop__search__input">
       <svg width="50" height="50" class="header-desktop__search__icon">
         <use xlink:href="@/assets/images/icons.svg#search-icon"></use>
@@ -52,37 +52,37 @@ const down_header = ref(false)
         <svg width="20" height="20">
           <use xlink:href="@/assets/images/icons.svg#home-icon"></use>
         </svg>
-        <span>Home</span>
+        <span>Главная</span>
       </div>
       <div class="header-mobile__down-header__my-book header-mobile__down-header__item">
         <svg width="20" height="20">
           <use xlink:href="@/assets/images/icons.svg#my-book-icon"></use>
         </svg>
-        <span>My book</span>
+        <span>Мои книги</span>
       </div>
       <div class="header-mobile__down-header__search header-mobile__down-header__item">
         <svg width="20" height="20">
           <use xlink:href="@/assets/images/icons.svg#search-icon"></use>
         </svg>
-        <span>Search</span>
+        <span>Поиск</span>
       </div>
       <div class="header-mobile__down-header__star header-mobile__down-header__item">
         <svg width="20" height="20">
           <use xlink:href="@/assets/images/icons.svg#star-icon"></use>
         </svg>
-        <span>Star</span>
+        <span>Успехи</span>
       </div>
       <div class="header-mobile__down-header__setting header-mobile__down-header__item">
         <svg width="20" height="20">
           <use xlink:href="@/assets/images/icons.svg#settings-icon"></use>
         </svg>
-        <span>Settings</span>
+        <span>Настройки</span>
       </div>
       <div class="header-mobile__down-header__profile header-mobile__down-header__item">
         <svg width="20" height="20">
           <use xlink:href="@/assets/images/icons.svg#account-icon"></use>
         </svg>
-        <span>Profile</span>
+        <span>Профиль</span>
       </div>
     </div>
   </div>
@@ -138,20 +138,28 @@ const down_header = ref(false)
         opacity: 0.4;
       }
     }
+
+    &-dark {
+      border: 3px solid #5b027b;
+      box-shadow: 0 0 10px 5px rgba(#5b027b, 1);
+      svg {
+        fill: #5b027b;
+      }
+    }
   }
 
   &__theme-icon {
     position: absolute;
-    top: 30px;
-    right: 30px;
+    top: 45px;
+    right: 45px;
     cursor: pointer;
-    fill: blue;
+    fill: #0C083E;
   }
 
   &__theme-icon-dark {
     position: absolute;
-    top: 30px;
-    right: 30px;
+    top: 45px;
+    right: 45px;
     cursor: pointer;
     fill: yellow;
   }
@@ -193,7 +201,7 @@ const down_header = ref(false)
     }
 
     &__theme {
-      fill: blue;
+      fill: #0C083E;
       cursor: pointer;
 
       &-dark {
@@ -210,15 +218,17 @@ const down_header = ref(false)
   &__down-header {
     display: grid;
     grid-template-columns: auto auto auto;
-    gap: 0 10vw;
+    gap: 20px 10vw;
     justify-content: center;
-    height: 100px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 
     &__item {
       display: flex;
       align-items: center;
       justify-content: start;
       gap: 0 5px;
+      cursor: pointer;
       svg {
         fill: white;
         stroke: white;
@@ -232,19 +242,6 @@ const down_header = ref(false)
 
 }
 
-//.down-header {
-//  &-enter-active, &-leave-active {
-//    transition-property: all;
-//    transition-duration: 0.3s;
-//  }
-//
-//  &-enter-from, &-leave-to {
-//    opacity: 0;
-//    //transform: translateY(500px);
-//  }
-//
-//}
-
 @media (max-width: 800px) {
   .header-desktop {
     display: none;
@@ -256,4 +253,28 @@ const down_header = ref(false)
     display: none;
   }
 }
+
+@media (max-width: 430px) {
+  .header-mobile__down-header {
+    grid-template-columns: auto auto;
+  }
+}
+
+@media (max-width: 350px) {
+  .header-mobile__up-header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .header-mobile__up-header__title {
+    display: none;
+  }
+}
+
+@media (max-width: 300px) {
+  .header-mobile__down-header {
+    grid-template-columns: auto;
+  }
+}
+
 </style>
