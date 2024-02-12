@@ -1,13 +1,9 @@
 <script setup>
-import { ref } from "vue";
 import Sidebar from "@/components/sidebar/Sidebar.vue";
 import Header from "@/components/Header.vue";
 import AllBooks from "@/components/AllBooks.vue";
-const width = ref(0);
-const onResize = () => (width.value = window.innerWidth);
-onResize();
-window.addEventListener("resize", onResize);
-
+import changeResize from "@/utils/changeResize.js";
+const width = changeResize()
 </script>
 
 <template>

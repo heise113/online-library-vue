@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
-import {reactive, ref} from "vue";
+import http from "@/utils/http.js";
 
 export const useBooks = defineStore('books', () => {
-    const popular_genres = reactive(["детективы", "фентези", "ужасы", "приключения", "поэзия", "фантастика", "любовные романы", "триллеры", "комиксы и манга", "проза"])
-    const all_genres = reactive([])
-    return {popular_genres, all_genres}
+    const books = http.getBooks()
+    const popular_genres = http.getPopularGenres()
+    return {books, popular_genres}
 })

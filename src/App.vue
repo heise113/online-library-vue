@@ -1,7 +1,10 @@
 <script setup>
 import {useStore} from "@/store/store.js";
-
+import {watch} from "vue";
 const store = useStore()
+watch(store, () => {
+  store.theme === 'dark' ? document.body.style.backgroundColor = '#0C083E' : document.body.style.backgroundColor = '#f5f5f5'
+})
 </script>
 
 <template>
@@ -10,12 +13,6 @@ const store = useStore()
   </div>
 </template>
 
-<style scoped lang="scss">
-  .wrapper-app {
-    background-color: #f5f5f5;
+<style lang="scss" scoped>
 
-    &-dark {
-      background-color: #0C083E;
-    }
-  }
 </style>

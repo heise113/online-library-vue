@@ -9,14 +9,17 @@ const store = useStore()
 function getImageUrl(name) {
   return new URL(`../assets/images/${name}`, import.meta.url).href
 }
+
 </script>
 
 <template>
-  <div class="book-wrapper">
-    <div class="book-wrapper__image" :style="`background-image: url(${getImageUrl(book.images)});`"></div>
-    <div class="book-wrapper__author" :class="store.theme === 'dark' ? 'book-wrapper__author-dark' : null">{{ book.name }}</div>
-    <div class="book-wrapper__name" :class="store.theme === 'dark' ? 'book-wrapper__name-dark' : null">{{ book.author }}</div>
-  </div>
+  <router-link :to="`/about-book/${book.name_id}`" style="text-decoration: none">
+    <div class="book-wrapper">
+      <div class="book-wrapper__image" :style="`background-image: url(${getImageUrl(book.images)});`"></div>
+      <div class="book-wrapper__author" :class="store.theme === 'dark' ? 'book-wrapper__author-dark' : null">{{book.name}}</div>
+      <div class="book-wrapper__name" :class="store.theme === 'dark' ? 'book-wrapper__name-dark' : null">{{book.author}}</div>
+    </div>
+  </router-link>
 </template>
 
 <style scoped lang="scss">
