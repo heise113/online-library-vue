@@ -59,12 +59,20 @@ const store = useStore()
         </svg>
         <span class="sidebar-wrapper__navigation__settings__text">настройки</span>
       </div>
-      <div class="sidebar-wrapper__navigation__account">
-        <svg width="60" height="60" class="sidebar-wrapper__navigation__account__icon">
-          <use xlink:href="@/assets/images/icons.svg#account-icon"></use>
-        </svg>
-        <span class="sidebar-wrapper__navigation__account__text">профиль</span>
-      </div>
+      <router-link to="/profile" style="text-decoration: none">
+        <div 
+          class="sidebar-wrapper__navigation__account"
+          :class="{
+              'active-button': $route.path === '/profile' && store.theme === 'light',
+              'active-button-dark': $route.path === '/profile' && store.theme === 'dark'
+            }"
+        >
+          <svg width="60" height="60" class="sidebar-wrapper__navigation__account__icon">
+            <use xlink:href="@/assets/images/icons.svg#account-icon"></use>
+          </svg>
+          <span class="sidebar-wrapper__navigation__account__text">профиль</span>
+        </div>
+      </router-link>
     </div>
     <div @click="$emit('changeSidebar')" class="sidebar-wrapper__hidden-sidebar">
       свернуть

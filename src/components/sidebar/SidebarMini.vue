@@ -41,11 +41,13 @@ const store = useStore()
           <use xlink:href="@/assets/images/icons.svg#settings-icon"></use>
         </svg>
       </div>
-      <div class="wrapper-sidebar__navigation__profile">
-        <svg width="60" height="60" class="wrapper-sidebar__navigation__profile__icon">
-          <use xlink:href="@/assets/images/icons.svg#account-icon"></use>
-        </svg>
-      </div>
+      <router-link to="/profile">
+        <div class="wrapper-sidebar__navigation__profile" :class="$route.path === '/profile' ? 'active-button' : null">
+          <svg width="60" height="60" class="wrapper-sidebar__navigation__profile__icon">
+            <use xlink:href="@/assets/images/icons.svg#account-icon"></use>
+          </svg>
+        </div>
+      </router-link>
     </div>
   </div>
 </template>

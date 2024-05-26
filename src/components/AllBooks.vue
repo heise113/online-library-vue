@@ -5,6 +5,10 @@ import Book from "@/components/Book.vue";
 import {useStore} from "@/store/store.js";
 import {useBooks} from "@/store/books.js";
 
+document.addEventListener("click", () => {
+  show_filters.value = false
+})
+
 const store = useStore()
 const books = useBooks()
 
@@ -45,7 +49,7 @@ const filter_status = reactive({
            :class="store.theme === 'dark' ? 'all-books-wrapper__filters__text-dark' : null">
         Все книги:
       </div>
-      <div @click="show_filters = !show_filters" class="all-books-wrapper__filters__button"
+      <div @click.stop="show_filters = !show_filters" class="all-books-wrapper__filters__button"
            :class="store.theme === 'dark' ? 'all-books-wrapper__filters__button-dark' : null">
         <svg width="24" height="26">
           <use xlink:href="@/assets/images/icons.svg#filters-icon"></use>
@@ -113,7 +117,7 @@ const filter_status = reactive({
       column-gap: 15px;
       color: #939393;
       font-size: 26px;
-      background-color: white;
+      background-color: #4B0404;
       border-radius: 10px;
       padding: 5px 15px;
       cursor: pointer;
@@ -121,12 +125,14 @@ const filter_status = reactive({
       white-space: nowrap;
 
       svg {
-        stroke: #939393;
+        fill: white;
+        stroke: white;
       }
 
       &__text {
         position: relative;
         bottom: 1px;
+        color: white;
       }
 
       &-dark {
