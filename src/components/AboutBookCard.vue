@@ -1,36 +1,86 @@
 <script setup>
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 import {useStore} from "@/store/store.js";
+import {useRoute} from "vue-router";
+import http from "@/utils/http";
+import router from "@/router";
+import { useBooks } from "@/store/books";
 
 const store = useStore()
+const books_store = useBooks()
 
-defineProps({
-  book: Object
-})
-function getImageUrl(name) {
-  return new URL(`../assets/images/${name}`, import.meta.url).href
+let book_id_name = useRoute().params.book_name
+http.getAboutBook(book_id_name)
+  .then((resp) => {
+    books_store.about_book.data = resp.data
+  })
+  .catch(error => console.log(error.message))
+
+
+const checkBookInMyCollection = () => {
+  if (store.getJwtToken().value === "") {
+    return undefined
+  }
+  if (store.getProfileData().my_books !== null){
+    let result = store.getProfileData().my_books.find(item => item.id == books_store.about_book.data.id)
+    return result
+  }
+  return undefined
 }
+
+const addDeleteBook = () => {
+  if (store.getJwtToken().value === "") {
+    router.push("/profile")
+    return
+  }
+  let result = checkBookInMyCollection()
+  if (result === undefined || store.getProfileData().my_books === null){
+    http.addBook(store.getJwtToken().value, books_store.about_book.data.id)
+    .then(() => {
+      http.getProfileData(store.getJwtToken().value)
+        .then((resp) => {
+          store.setProfileData(resp.data)
+          console.log("id_books: ", store.getProfileData().my_books)
+        })
+        .catch(error => console.log(error.message))
+    })
+    .catch(error => console.log(error.message))
+  }
+  if (result !== undefined && store.getProfileData().my_books !== null) {
+    http.deleteBook(store.getJwtToken().value, books_store.about_book.data.id)
+    .then(() => {
+      http.getProfileData(store.getJwtToken().value)
+        .then((resp) => {
+          store.setProfileData(resp.data)
+          console.log("id_books: ", store.getProfileData().my_books)
+        })
+        .catch(error => console.log(error.message))
+    })
+    .catch(error => console.log(error.message))
+  }
+}
+
 </script>
 
 <template>
   <div class="wrapper-about-book-card" :class="{'wrapper-about-book-card-dark': store.theme === 'dark'}">
-    <div class="wrapper-about-book-card__content__img" :style="`background-image: url(${getImageUrl(book.images)});`"></div>
+    <div class="wrapper-about-book-card__content__img" :style="`background-image: url(http://localhost:8000/static/${books_store.about_book.data.book_image});`"></div>
     <div class="wrapper-about-book-card__content__information">
       <div class="wrapper-about-book-card__content__information__up">
         <div 
           class="wrapper-about-book-card__content__information__up__name-book"
           :class="{'wrapper-about-book-card__content__information__up__name-book-dark': store.theme === 'dark'}"
         >
-          {{book.name}}
+          {{books_store.about_book.data.book_name}}
         </div>
         <div 
           class="wrapper-about-book-card__content__information__up__author"
           :class="{'wrapper-about-book-card__content__information__up__author-dark': store.theme === 'dark'}"
         >
-          {{book.author}}
+          {{books_store.about_book.data.book_author}}
         </div>
         <div class="wrapper-about-book-card__content__information__up__buttons">
-          <RouterLink :to="`/reader/${book.name_id}`">
+          <RouterLink :to="`/reader/${books_store.about_book.data.id_name}`">
             <div 
               class="wrapper-about-book-card__content__information__up__buttons__read-book"
               :class="{'wrapper-about-book-card__content__information__up__buttons__read-book-dark': store.theme === 'dark'}"
@@ -38,8 +88,14 @@ function getImageUrl(name) {
               Читать
             </div>
           </RouterLink>
-          <div class="wrapper-about-book-card__content__information__up__buttons__heart">
-            <svg width="30" height="28">
+          <div 
+            @click="addDeleteBook" id="heart-btn" 
+            :class="{
+              'wrapper-about-book-card__content__information__up__buttons__heart': checkBookInMyCollection() === undefined,
+              'wrapper-about-book-card__content__information__up__buttons__heart-active': checkBookInMyCollection() !== undefined
+            }"
+          >
+            <svg width="30" height="32">
               <use xlink:href="@/assets/images/icons.svg#heart-icon"></use>
             </svg>
           </div>
@@ -54,7 +110,7 @@ function getImageUrl(name) {
         <div class="wrapper-about-book-card__content__information__down__description"
           :class="{'wrapper-about-book-card__content__information__down__description-dark': store.theme === 'dark'}"
         >
-          {{book.description}}
+          {{books_store.about_book.data.book_description}}
         </div>
         <div class="wrapper-about-book-card__content__information__down__genres-title"
           :class="{'wrapper-about-book-card__content__information__down__genres-title-dark': store.theme === 'dark'}"
@@ -62,10 +118,10 @@ function getImageUrl(name) {
           Жанры
         </div>
         <div class="wrapper-about-book-card__content__information__down__genres">
-          <div v-for="genre in book.genres" class="wrapper-about-book-card__content__information__down__genres__item"
+          <div v-for="genre in books_store.about_book.data.book_genres" class="wrapper-about-book-card__content__information__down__genres__item"
             :class="{'wrapper-about-book-card__content__information__down__genres__item-dark': store.theme === 'dark'}"
           >
-            {{genre}}
+            {{genre.genre}}
           </div>
         </div>
       </div>
@@ -142,9 +198,21 @@ function getImageUrl(name) {
 
           &__heart {
             background-color: lightgray;
-            padding: 15px;
+            padding: 14px 16px;
             border-radius: 100%;
             cursor: pointer;
+
+            &-active {
+              background-color: red;
+              padding: 14px 16px;
+              border-radius: 100%;
+              cursor: pointer;
+              stroke: white;
+            }
+
+            &:active {
+              opacity: 0.5;
+            }
           }
         }
       }
@@ -195,7 +263,7 @@ function getImageUrl(name) {
 
 @media (max-width: 1200px) {
   .wrapper-about-book-card {
-    max-width: 500px;
+    width: 500px;
     flex-direction: column;
     align-items: center;
     justify-content: center;

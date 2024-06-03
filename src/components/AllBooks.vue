@@ -3,14 +3,22 @@ import Genres from "@/components/Genres.vue";
 import {reactive, ref} from "vue";
 import Book from "@/components/Book.vue";
 import {useStore} from "@/store/store.js";
-import {useBooks} from "@/store/books.js";
+import http from "@/utils/http";
+import { useBooks } from "@/store/books";
 
 document.addEventListener("click", () => {
   show_filters.value = false
 })
 
 const store = useStore()
-const books = useBooks()
+const books_store = useBooks()
+
+http.getBooks()
+  .then((resp) => {
+    books_store.books.data = resp.data
+  })
+  .catch(error => console.log(error.message))
+  
 
 const params = {
   genres: [],
@@ -32,6 +40,7 @@ const setFilter = (filter) => {
 const requestForBooks = () => {
   console.log(params)
 }
+
 const show_filters = ref(false)
 const filter_status = reactive({
   new: true,
@@ -80,7 +89,7 @@ const filter_status = reactive({
     </div>
     <div class="all-books-wrapper__books">
       <Book
-          v-for="book in books.books"
+          v-for="book in books_store.books.data"
           :key="book.id"
           :book="book"
       />

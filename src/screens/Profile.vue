@@ -22,8 +22,8 @@ const changeAuthActive = () => {
     <Sidebar v-if="width > 800" />
     <div class="wrapper-profile__profile-content">
         <MyProfile v-if="store.jwt_token !== ''" />
-        <Auth @changeAuthActive="changeAuthActive" v-if="store.jwt_token === '' && auth_active === true" />
-        <Register @changeAuthActive="changeAuthActive" v-if="store.jwt_token === '' && auth_active === false" />
+        <Auth @changeAuthActive="changeAuthActive" v-if="store.getJwtToken().value === '' && auth_active === true" />
+        <Register @changeAuthActive="changeAuthActive" v-if="store.getJwtToken().value === '' && auth_active === false" />
     </div>
   </div>
 </template>

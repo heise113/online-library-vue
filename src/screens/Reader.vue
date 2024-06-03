@@ -2,10 +2,12 @@
 import http from "@/utils/http";
 import {ref, onMounted, onBeforeUpdate, watch, onUnmounted, onUpdated} from "vue";
 import {useStore} from "@/store/store.js";
+import {useRoute} from "vue-router";
 const store = useStore()
 
 window.addEventListener("resize", onResize)
 
+let book_id_name = useRoute().params.book_name
 let book = ref("")
 let current_position_px = 0;
 let current_position_page = ref(1);
@@ -22,7 +24,7 @@ onUpdated(() => {
   // updateProgressLine(getPositionPercent())
 })
 
-http.getBook()
+http.getBook(book_id_name)
     .then((resp) => {
       book.value = resp.data.book_content
     })

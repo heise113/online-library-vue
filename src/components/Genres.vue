@@ -1,10 +1,19 @@
 <script setup>
 import {useBooks} from "@/store/books.js";
 import {useStore} from "@/store/store.js";
+import http from "@/utils/http";
 import {reactive} from "vue";
 
+const genres = reactive({
+  data: []
+})
+http.getPopularGenres()
+  .then((resp) => {
+    genres.data = resp.data
+  })
+  .catch(error => console.log(error.message))
+
 const store = useStore()
-const genres = useBooks()
 const emit = defineEmits(['active_genres'])
 let active_genres = []
 
@@ -27,9 +36,9 @@ function clickOnGenre(event, genre) {
           'active-genre': store.theme === 'light' && active_genres.indexOf(genre) !== -1,
           'active-genre-dark': store.theme === 'dark' && active_genres.indexOf(genre) !== -1,
         }"
-        v-for="genre in genres.popular_genres"
+        v-for="genre in genres.data"
     >
-      {{ genre }}
+      {{ genre.genre }}
     </div>
   </div>
 </template>

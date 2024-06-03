@@ -1,9 +1,13 @@
 import { defineStore } from "pinia";
-import http from "@/utils/http.js";
+import { reactive } from "vue";
 
 export const useBooks = defineStore('books', () => {
-    const books = http.getBooks()
-    const popular_genres = http.getPopularGenres()
+    const about_book = reactive({
+        data: {}
+    })
 
-    return {books, popular_genres}
+    const books = reactive({
+        data: null
+    })
+    return {about_book, books}
 })

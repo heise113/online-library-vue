@@ -13,11 +13,11 @@ function getImageUrl(name) {
 </script>
 
 <template>
-  <router-link :to="`/about-book/${book.name_id}`" style="text-decoration: none">
+  <router-link :to="`/about-book/${book.id_name}`" style="text-decoration: none">
     <div class="book-wrapper">
-      <div class="book-wrapper__image" :style="`background-image: url(${getImageUrl(book.images)});`"></div>
-      <div class="book-wrapper__author" :class="store.theme === 'dark' ? 'book-wrapper__author-dark' : null">{{book.name}}</div>
-      <div class="book-wrapper__name" :class="store.theme === 'dark' ? 'book-wrapper__name-dark' : null">{{book.author}}</div>
+      <div class="book-wrapper__image" :style="`background-image: url(http://localhost:8000/static/${book.book_image});`"></div>
+      <div class="book-wrapper__author" :class="store.theme === 'dark' ? 'book-wrapper__author-dark' : null">{{book.book_name}}</div>
+      <div class="book-wrapper__name" :class="store.theme === 'dark' ? 'book-wrapper__name-dark' : null">{{book.book_author}}</div>
     </div>
   </router-link>
 </template>

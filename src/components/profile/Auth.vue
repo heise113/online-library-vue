@@ -14,7 +14,6 @@ const signIn = () => {
     http.signIn(user_data)
         .then(resp => {
             let token = resp.data.token
-            console.log(token)
             store.setJwtToken(token)
         })
         .catch(error => console.log(error.message))
