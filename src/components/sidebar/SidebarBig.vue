@@ -41,24 +41,20 @@ const store = useStore()
           <span class="sidebar-wrapper__navigation__my-book__text">мои книги</span>
         </div>
       </router-link>
-      <div class="sidebar-wrapper__navigation__search">
-        <svg width="60" height="60" class="sidebar-wrapper__navigation__search__icon">
-          <use xlink:href="@/assets/images/icons.svg#search-icon"></use>
-        </svg>
-        <span class="sidebar-wrapper__navigation__search__text">поиск</span>
-      </div>
-      <div class="sidebar-wrapper__navigation__star">
-        <svg width="65" height="65" class="sidebar-wrapper__navigation__star__icon">
-          <use xlink:href="@/assets/images/icons.svg#star-icon"></use>
-        </svg>
-        <span class="sidebar-wrapper__navigation__star__text">успехи</span>
-      </div>
-      <div class="sidebar-wrapper__navigation__settings">
-        <svg width="65" height="65" class="sidebar-wrapper__navigation__settings__icon">
-          <use xlink:href="@/assets/images/icons.svg#settings-icon"></use>
-        </svg>
-        <span class="sidebar-wrapper__navigation__settings__text">настройки</span>
-      </div>
+      <router-link to="/search" style="text-decoration: none">
+        <div 
+          class="sidebar-wrapper__navigation__search"
+          :class="{
+              'active-button': $route.path === '/search' && store.theme === 'light',
+              'active-button-dark': $route.path === '/search' && store.theme === 'dark'
+            }"
+        >
+          <svg width="60" height="60" class="sidebar-wrapper__navigation__search__icon">
+            <use xlink:href="@/assets/images/icons.svg#search-icon"></use>
+          </svg>
+          <span class="sidebar-wrapper__navigation__search__text">поиск</span>
+        </div>
+      </router-link>
       <router-link to="/profile" style="text-decoration: none">
         <div 
           class="sidebar-wrapper__navigation__account"

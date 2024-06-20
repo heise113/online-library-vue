@@ -19,6 +19,8 @@ http.getProfileData(store.getJwtToken().value)
   })
   .catch(error => console.log(error.message))
 
+
+
 </script>
 
 <template>
@@ -27,10 +29,16 @@ http.getProfileData(store.getJwtToken().value)
     <div class="wrapper-my-book__content">
       <Header/>
       <div class="wrapper-my-book__content__my-books">
-        <div class="wrapper-my-book__content__my-books__title">
+        <div 
+          class="wrapper-my-book__content__my-books__title"
+          :class="{
+            'wrapper-my-book__content__my-books__title-dark':
+              store.theme === 'dark',
+          }"
+        >
           Мои книги:
         </div>
-        <div class="wrapper-my-book__content__my-books__books">
+        <div class="wrapper-my-book__content__my-books__books" v-if="store.getProfileData() !== null">
           <Book
             v-for="book in store.getProfileData().my_books"
             :key="book.id"

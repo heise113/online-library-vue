@@ -8,7 +8,6 @@ const store = useStore()
 
 http.getProfileData(store.getJwtToken().value)
     .then((resp) => {
-        // store.profile_data.data = resp.data
         store.setProfileData(resp.data)
     })
     .catch(error => console.log(error.message))

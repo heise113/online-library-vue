@@ -26,7 +26,7 @@ export const useStore = defineStore('store', () => {
     }
 
     const profile_data = reactive({
-        data: {}
+        data: null
     })
 
     const setProfileData = (data) => {
@@ -45,9 +45,11 @@ export const useStore = defineStore('store', () => {
             }
         }
         else {
-            return {}
+            return null
         }
     }
 
-    return {sidebar_status, theme, jwt_token, profile_data, changeTheme, setJwtToken, getJwtToken, setProfileData, getProfileData}
+    let param_search = ref("")
+
+    return {sidebar_status, theme, jwt_token, profile_data, changeTheme, setJwtToken, getJwtToken, setProfileData, getProfileData, param_search}
 })

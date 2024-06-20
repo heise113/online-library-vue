@@ -8,7 +8,6 @@ const registerUser = () => {
     http.createUser(user_data)
         .then((resp) => {
             emit('changeAuthActive')
-            console.log(resp.data.id)
         })
         .catch(error => console.log(error.message))
 }

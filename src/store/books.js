@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 
 export const useBooks = defineStore('books', () => {
     const about_book = reactive({
@@ -9,5 +9,17 @@ export const useBooks = defineStore('books', () => {
     const books = reactive({
         data: null
     })
-    return {about_book, books}
+
+    const books_filters = reactive({
+        genres: -1,
+        filter: "new"
+    })
+
+    const past_genres = ref("")
+
+    const books_from_search = reactive({
+        data: null
+    })
+
+    return {about_book, books, books_filters, past_genres, books_from_search}
 })

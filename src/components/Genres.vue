@@ -14,15 +14,38 @@ http.getPopularGenres()
   .catch(error => console.log(error.message))
 
 const store = useStore()
+const books_store = useBooks()
+
 const emit = defineEmits(['active_genres'])
-let active_genres = []
+
+let active_genre
+books_store.books_filters.genres === -1 ? active_genre = -1 : active_genre = books_store.books_filters.genres.id
+let current_genre = -1
+let past_genres_event = {}
 
 function clickOnGenre(event, genre) {
   store.theme === 'dark' ? event.classList.toggle('active-genre-dark') : event.classList.toggle('active-genre')
-  active_genres.indexOf(genre) === -1
-      ? active_genres.push(genre)
-      : active_genres = active_genres.filter(item => genre !== item)
-  emit('active_genres', active_genres)
+  
+  current_genre = genre.id
+
+  if (books_store.past_genres !== "" && books_store.past_genres !== genre.genre) {
+    store.theme === 'dark' ? past_genres_event.classList.remove('active-genre-dark') : past_genres_event.classList.remove('active-genre')
+    active_genre = current_genre
+  }
+  else if (books_store.past_genres !== "" && books_store.past_genres === genre.genre){
+    active_genre = -1
+    books_store.past_genres = ""
+    past_genres_event = {}
+    emit('active_genres', active_genre)
+    return
+  }
+  else {
+    active_genre = current_genre
+  }
+    
+  books_store.past_genres = genre.genre
+  past_genres_event = event
+  emit('active_genres', active_genre)
 }
 </script>
 
@@ -33,8 +56,8 @@ function clickOnGenre(event, genre) {
         class="wrapper-genres__genre"
         :class="{
           'wrapper-genres__genre-dark': store.theme === 'dark',
-          'active-genre': store.theme === 'light' && active_genres.indexOf(genre) !== -1,
-          'active-genre-dark': store.theme === 'dark' && active_genres.indexOf(genre) !== -1,
+          'active-genre': store.theme === 'light' && books_store.books_filters.genres === genre.id,
+          'active-genre-dark': store.theme === 'dark' && books_store.books_filters.genres === genre.id,
         }"
         v-for="genre in genres.data"
     >

@@ -26,21 +26,13 @@ const store = useStore()
           </svg>
         </div>
       </router-link>
-      <div class="wrapper-sidebar__navigation__search">
-        <svg width="60" height="60" class="wrapper-sidebar__navigation__search__icon">
-          <use xlink:href="@/assets/images/icons.svg#search-icon"></use>
-        </svg>
-      </div>
-      <div class="wrapper-sidebar__navigation__stars">
-        <svg width="65" height="65" class="wrapper-sidebar__navigation__stars__icon">
-          <use xlink:href="@/assets/images/icons.svg#star-icon"></use>
-        </svg>
-      </div>
-      <div class="wrapper-sidebar__navigation__settings">
-        <svg width="65" height="65" class="wrapper-sidebar__navigation__settings__icon">
-          <use xlink:href="@/assets/images/icons.svg#settings-icon"></use>
-        </svg>
-      </div>
+      <router-link to="/search">
+        <div class="wrapper-sidebar__navigation__search" :class="$route.path === '/search' ? 'active-button' : null">
+          <svg width="60" height="60" class="wrapper-sidebar__navigation__search__icon">
+            <use xlink:href="@/assets/images/icons.svg#search-icon"></use>
+          </svg>
+        </div>
+      </router-link>
       <router-link to="/profile">
         <div class="wrapper-sidebar__navigation__profile" :class="$route.path === '/profile' ? 'active-button' : null">
           <svg width="60" height="60" class="wrapper-sidebar__navigation__profile__icon">

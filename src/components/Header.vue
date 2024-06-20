@@ -2,6 +2,7 @@
 import {useStore} from "@/store/store.js";
 import SidebarMini from "@/components/sidebar/SidebarMini.vue";
 import {ref} from "vue";
+import router from "@/router";
 
 const store = useStore()
 const changeTheme = () => {
@@ -9,15 +10,24 @@ const changeTheme = () => {
 }
 
 const down_header = ref(false)
+
+let param_search = ""
+
+const searchBooks = () => {
+  store.param_search = param_search
+  router.push("/search")
+}
 </script>
 
 <template>
   <div class="header-desktop" :class="store.theme === 'dark' ? 'header-desktop-dark' : null">
-    <div class="header-desktop__search" :class="{'header-desktop__search-dark': store.theme === 'dark'}">
-      <input class="header-desktop__search__input">
-      <svg width="50" height="50" class="header-desktop__search__icon">
-        <use xlink:href="@/assets/images/icons.svg#search-icon"></use>
-      </svg>
+    <div v-if="$route.path !== '/search' || $route.path !== '/reader/'" class="header-desktop__search" :class="{'header-desktop__search-dark': store.theme === 'dark'}">
+      <input v-model="param_search" class="header-desktop__search__input">
+      <router-link to="/search" style="text-decoration: none">
+        <svg @click="searchBooks" width="50" height="50" class="header-desktop__search__icon">
+          <use xlink:href="@/assets/images/icons.svg#search-icon"></use>
+        </svg>
+      </router-link>
     </div>
     <div
         :class="{
@@ -48,42 +58,38 @@ const down_header = ref(false)
       </svg>
     </div>
     <div v-show="down_header" class="header-mobile__down-header">
-      <div class="header-mobile__down-header__home header-mobile__down-header__item">
-        <svg width="20" height="20">
-          <use xlink:href="@/assets/images/icons.svg#home-icon"></use>
-        </svg>
-        <span>Главная</span>
-      </div>
-      <div class="header-mobile__down-header__my-book header-mobile__down-header__item">
-        <svg width="20" height="20">
-          <use xlink:href="@/assets/images/icons.svg#my-book-icon"></use>
-        </svg>
-        <span>Мои книги</span>
-      </div>
-      <div class="header-mobile__down-header__search header-mobile__down-header__item">
-        <svg width="20" height="20">
-          <use xlink:href="@/assets/images/icons.svg#search-icon"></use>
-        </svg>
-        <span>Поиск</span>
-      </div>
-      <div class="header-mobile__down-header__star header-mobile__down-header__item">
-        <svg width="20" height="20">
-          <use xlink:href="@/assets/images/icons.svg#star-icon"></use>
-        </svg>
-        <span>Успехи</span>
-      </div>
-      <div class="header-mobile__down-header__setting header-mobile__down-header__item">
-        <svg width="20" height="20">
-          <use xlink:href="@/assets/images/icons.svg#settings-icon"></use>
-        </svg>
-        <span>Настройки</span>
-      </div>
-      <div class="header-mobile__down-header__profile header-mobile__down-header__item">
-        <svg width="20" height="20">
-          <use xlink:href="@/assets/images/icons.svg#account-icon"></use>
-        </svg>
-        <span>Профиль</span>
-      </div>
+      <router-link to="/" style="text-decoration: none">
+        <div class="header-mobile__down-header__home header-mobile__down-header__item">
+          <svg width="20" height="20">
+            <use xlink:href="@/assets/images/icons.svg#home-icon"></use>
+          </svg>
+          <span>Главная</span>
+        </div>
+      </router-link>
+      <router-link to="/my-book" style="text-decoration: none">
+        <div class="header-mobile__down-header__my-book header-mobile__down-header__item">
+          <svg width="20" height="20">
+            <use xlink:href="@/assets/images/icons.svg#my-book-icon"></use>
+          </svg>
+          <span>Мои книги</span>
+        </div>
+      </router-link>
+      <router-link to="/" style="text-decoration: none">
+        <div class="header-mobile__down-header__search header-mobile__down-header__item">
+          <svg width="20" height="20">
+            <use xlink:href="@/assets/images/icons.svg#search-icon"></use>
+          </svg>
+          <span>Поиск</span>
+        </div>
+      </router-link>
+      <router-link to="/profile" style="text-decoration: none">
+        <div class="header-mobile__down-header__profile header-mobile__down-header__item">
+          <svg width="20" height="20">
+            <use xlink:href="@/assets/images/icons.svg#account-icon"></use>
+          </svg>
+          <span>Профиль</span>
+        </div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -217,7 +223,7 @@ const down_header = ref(false)
 
   &__down-header {
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto;
     gap: 20px 10vw;
     justify-content: center;
     padding-top: 20px;

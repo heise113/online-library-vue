@@ -13,19 +13,14 @@ document.addEventListener("click", () => {
 const store = useStore()
 const books_store = useBooks()
 
-http.getBooks()
+http.getBooks(books_store.books_filters)
   .then((resp) => {
     books_store.books.data = resp.data
   })
   .catch(error => console.log(error.message))
   
-
-const params = {
-  genres: [],
-  filter: 'new'
-}
 const setGenres = (active_genres) => {
-  params.genres = active_genres
+  books_store.books_filters.genres = active_genres
   requestForBooks()
 }
 const setFilter = (filter) => {
@@ -34,18 +29,21 @@ const setFilter = (filter) => {
   }
   filter_status[filter] = true
   show_filters.value = !show_filters.value
-  params.filter = filter
+  books_store.books_filters.filter = filter
   requestForBooks()
 }
 const requestForBooks = () => {
-  console.log(params)
+  http.getBooks(books_store.books_filters)
+  .then((resp) => {
+    books_store.books.data = resp.data
+  })
+  .catch(error => console.log(error.message))
 }
 
 const show_filters = ref(false)
 const filter_status = reactive({
-  new: true,
-  rating: false,
-  popular: false
+  new: books_store.books_filters.filter === "new",
+  popular: books_store.books_filters.filter === "popular"
 })
 
 </script>
@@ -68,11 +66,11 @@ const filter_status = reactive({
         >
           новые
         </div>
-        <div v-else-if="filter_status.rating" class="all-books-wrapper__filters__button__text"
+        <!-- <div v-else-if="filter_status.rating" class="all-books-wrapper__filters__button__text"
              :class="store.theme === 'dark' ? 'all-books-wrapper__filters__button__text-dark' : null"
         >
           рейтинг
-        </div>
+        </div> -->
         <div v-else-if="filter_status.popular" class="all-books-wrapper__filters__button__text"
              :class="store.theme === 'dark' ? 'all-books-wrapper__filters__button__text-dark' : null"
         >
@@ -82,7 +80,7 @@ const filter_status = reactive({
           <div @click.stop v-show="show_filters" class="all-books-wrapper__filters__button-active">
             <div @click="setFilter('new')" class="all-books-wrapper__filters__button-active__text">новые</div>
             <div @click="setFilter('popular')" class="all-books-wrapper__filters__button-active__text">популярные</div>
-            <div @click="setFilter('rating')" class="all-books-wrapper__filters__button-active__text">рейтинг</div>
+            <!-- <div @click="setFilter('rating')" class="all-books-wrapper__filters__button-active__text">рейтинг</div> -->
           </div>
         </Transition>
       </div>

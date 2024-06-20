@@ -1,9 +1,8 @@
-import { reactive } from "vue";
 import axios from "axios";
 
 export default {
-  getBooks() {
-    return axios.get("http://localhost:8000/api-free/all-books")
+  getBooks(filters) {
+    return axios.post("http://localhost:8000/api-free/get-books", filters)
   },
   getAboutBook(name_id) {
     return axios.get(`http://localhost:8000/api-free/about-book/${name_id}`)
@@ -47,5 +46,8 @@ export default {
         'Authorization': `Bearer ${token}`
       }
     })
+  },
+  searchBooks(param) {
+    return axios.get(`http://localhost:8000/api-free/search-books/${param}`)
   }
 };

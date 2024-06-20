@@ -16,9 +16,15 @@ http.getAboutBook(book_id_name)
   })
   .catch(error => console.log(error.message))
 
+http.getProfileData(store.getJwtToken().value)
+.then((resp) => {
+  store.setProfileData(resp.data)
+})
+.catch(error => console.log(error.message))
+
 
 const checkBookInMyCollection = () => {
-  if (store.getJwtToken().value === "") {
+  if (store.getJwtToken().value === "" || store.getProfileData() === null) {
     return undefined
   }
   if (store.getProfileData().my_books !== null){
@@ -40,7 +46,6 @@ const addDeleteBook = () => {
       http.getProfileData(store.getJwtToken().value)
         .then((resp) => {
           store.setProfileData(resp.data)
-          console.log("id_books: ", store.getProfileData().my_books)
         })
         .catch(error => console.log(error.message))
     })
@@ -52,7 +57,6 @@ const addDeleteBook = () => {
       http.getProfileData(store.getJwtToken().value)
         .then((resp) => {
           store.setProfileData(resp.data)
-          console.log("id_books: ", store.getProfileData().my_books)
         })
         .catch(error => console.log(error.message))
     })
@@ -99,6 +103,15 @@ const addDeleteBook = () => {
               <use xlink:href="@/assets/images/icons.svg#heart-icon"></use>
             </svg>
           </div>
+          <div
+            class="wrapper-about-book-card__content__information__up__buttons__likes"
+            :class="{
+            'wrapper-about-book-card__content__information__up__buttons__likes-dark':
+              store.theme === 'dark',
+          }"
+          >
+            {{ books_store.about_book.data.likes }}
+          </div>
         </div>
       </div>
       <div class="wrapper-about-book-card__content__information__down">
@@ -120,6 +133,7 @@ const addDeleteBook = () => {
         <div class="wrapper-about-book-card__content__information__down__genres">
           <div v-for="genre in books_store.about_book.data.book_genres" class="wrapper-about-book-card__content__information__down__genres__item"
             :class="{'wrapper-about-book-card__content__information__down__genres__item-dark': store.theme === 'dark'}"
+            :key="genre.genre"
           >
             {{genre.genre}}
           </div>
@@ -182,6 +196,15 @@ const addDeleteBook = () => {
           margin-top: 30px;
           column-gap: 30px;
           user-select: none;
+
+          &__likes {
+            font-size: 30px;
+            margin-left: -10px;
+
+            &-dark {
+              color: white;
+            }
+          }
 
           &__read-book {
             display: inline-block;
